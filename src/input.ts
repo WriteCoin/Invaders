@@ -34,9 +34,9 @@ const onMoveInterval = () => {
   const isMoveDown = state.player.status === PlayerStatus.MoveDown
   const isMoveUp = state.player.status === PlayerStatus.MoveUp
 
-  console.log(gameField.height, player.height)
+  // console.log(gameField.height, player.height)
   const limDown = gameField.height - player.height
-  console.log(limDown)
+  // console.log(limDown)
 
   const isMoveDownCheck = isMoveDown && state.player.posY < limDown
   const isMoveUpCheck = isMoveUp && state.player.posY > 0

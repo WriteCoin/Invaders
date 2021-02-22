@@ -2,6 +2,7 @@ import { getState, updateState } from "./state"
 import { Player, PlayerStatus } from "./types"
 
 export const height = 100
+export const width = 15
 
 export const render = (player: Player) => (playerNode: HTMLElement) => 
   playerNode.style.top = player.posY.toString() + "px"
@@ -10,6 +11,7 @@ export const setup = () => {
   const state = getState()
   render (state.player) (state.playerNode)
   const playerNode = state.playerNode
+  playerNode.style.width = width.toString() + "px"
   playerNode.style.height = height.toString() + "px"
 }
 

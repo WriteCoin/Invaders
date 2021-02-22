@@ -20,3 +20,13 @@ h1 {
   background: rgb(35, 150, 0);
   position: absolute;
 }
+
+#ball {
+	width: 50px;
+	height: 50px;
+	background: purple;
+	// -moz-border-radius: 50px;
+	// -webkit-border-radius: 50px;
+	border-radius: 50px;
+  position: absolute;
+}
