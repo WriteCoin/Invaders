@@ -1,4 +1,4 @@
-import { getState, updateState } from "./state"
+import { getDecAngle, getState, getSumAngle, updateState } from "./state"
 import { Ball, Wall } from "./types"
 import * as gameField from "./gameField"
 import { isBigIntLiteral } from "typescript"
@@ -14,7 +14,11 @@ export const render = (ball: Ball) => (ballNode: HTMLElement) => {
 }
 
 export const setPosXY = (posX: number) => (posY: number) => {
-  updateState(state => ({...state, ball: {...state.ball, posX, posY}}))
+  // const x = posX - radius * Math.cos(7 * Math.PI / 4)
+  // const y = posY - radius * Math.sin(7 * Math.PI / 4)
+  const x = posX < 0 ? 0 : posX > gameField.width ? gameField.width : posX
+  const y = posY < 0 ? 0 : posY > gameField.height ? gameField.height : posY
+  updateState(state => ({...state, ball: {...state.ball, posX: x, posY: y}}))
   const state = getState()
   // console.log(state.ball.posX, state.ball.posY)
   render(state.ball)(state.ballNode)
@@ -27,26 +31,29 @@ export const setAngle = (angle: number) =>
   updateState(state => ({...state, ball: {...state.ball, angle}}))
 
 export const addAngle = () =>
-  setAngle(getState().ball.angle + angleT)
+  setAngle(getSumAngle(getState().ball.angle, angleT))
 
 export const decAngle = () =>
-  setAngle(getState().ball.angle - angleT)
+  setAngle(getDecAngle(getState().ball.angle, angleT))
 
-export const isTouchedWalls = () => {
-  const ball = getState().ball
-  return ball.posX === radius
-      || ball.posY === radius
-      || ball.posX === gameField.width - radius
-      || ball.posY === gameField.height - radius
-}
+// export const isTouchedWalls = () => {
+//   const ball = getState().ball
+//   return ball.posX <= radius
+//       || ball.posY <= radius
+//       || ball.posX >= gameField.width - radius
+//       || ball.posY >= gameField.height - radius
+// }
 
 export const getTouchedWall = () => {
   const ball = getState().ball
-  return  ball.posX <= radius ? Wall.Left
-        : ball.posY <= radius ? Wall.Top
+  return  ball.posX <= 0 ? Wall.Left
+        : ball.posY <= 0 ? Wall.Top
         : ball.posX >= gameField.width - radius ? Wall.Right
         : ball.posY >= gameField.height - radius ? Wall.Bottom : undefined
 }
+
+export const setFaced = (flag: boolean) => 
+  updateState(state => ({...state, ball: {...state.ball, hasFaced: flag}}))
 
 export const setup = () => {
   const state = getState()

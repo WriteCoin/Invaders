@@ -24,7 +24,8 @@ export type Ball = {
   speed: number,
   angle: number,
   posX: number,
-  posY: number
+  posY: number,
+  hasFaced: boolean
 }
 
 export type State = {
