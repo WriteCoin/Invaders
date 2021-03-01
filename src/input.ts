@@ -3,6 +3,7 @@ import { getState, updateState } from "./state"
 import { PlayerStatus } from "./types"
 import * as gameField from "./gameField"
 
+let moveTimer
 const allowedKeys: string[] = ["ArrowUp", "ArrowDown"]
 const interval = 100
 
@@ -29,6 +30,7 @@ const onKeyUp = (event: KeyboardEvent) => {
 
 const onMoveInterval = () => {
   const state = getState()
+
   const speedDelta = state.player.speed / (1000 / interval)
 
   const isMoveDown = state.player.status === PlayerStatus.MoveDown
@@ -43,10 +45,12 @@ const onMoveInterval = () => {
 
   isMoveDownCheck && player.moveDown(speedDelta)
   isMoveUpCheck && player.moveUp(speedDelta)
+
+  state.isGameOver && clearInterval(moveTimer) 
 }
 
 export const setup = () => {
   window.addEventListener("keydown", onKeyDown)
   window.addEventListener("keyup", onKeyUp)
-  setInterval(onMoveInterval, interval)
+  moveTimer = setInterval(onMoveInterval, interval)
 }

@@ -32,3 +32,6 @@ export const moveDown = (speed: number) => {
 
 export const setStatus = (status: PlayerStatus) => 
   updateState(st => ({...st, player: {...st.player, status}}))
+
+export const setScore = (score: number) =>
+  updateState(st => ({...st, player: {...st.player, score}}))

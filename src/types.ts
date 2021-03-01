@@ -14,7 +14,8 @@ export enum Wall {
 export type Player = {
   posY: number,
   speed: number,
-  status: PlayerStatus
+  status: PlayerStatus,
+  score: number
 }
 
 export type Ball = {
@@ -29,8 +30,10 @@ export type Ball = {
 }
 
 export type State = {
+  isGameOver: boolean,
   playerNode: HTMLElement,
   gameFieldNode: HTMLElement,
+  textScore: HTMLElement,
   ballNode: HTMLElement,
   player: Player,
   ball: Ball

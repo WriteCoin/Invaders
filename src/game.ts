@@ -3,9 +3,10 @@ import * as player from "./player"
 import { getState, toDeg } from "./state"
 import { PlayerStatus, State, Wall } from "./types"
 
-let timer, cooldownTimer
+let timer, cooldownTimer, scoreTimer
 const interval = 125,
-      timeCooldown = 1000
+      timeCooldown = 1000,
+      timeScore = 1000
 
 const getQuarterAngle = (angle: number): number =>
     angle > 0 && angle < 90 ? 4 :
@@ -15,6 +16,7 @@ const getQuarterAngle = (angle: number): number =>
 
 const end = () => {
   clearInterval(timer)
+  getState().isGameOver = true
   alert("Игра окончена")
 }
 
@@ -39,15 +41,15 @@ const clockwiseDirectionRebound = () => rebound(ball.addAngle),
 const update = () => {
   const state = getState()
   const touchedWall = ball.getTouchedWall()
-  console.log("стена " + touchedWall)
+  // console.log("стена " + touchedWall)
   // console.log(state.ball.angle)
   // console.log(toDeg(state.ball.angle))
-  console.log("ball X: " + state.ball.posX)
-  console.log("ball Y: " + state.ball.posY)
-  console.log("player Y: " + state.player.posY)
+  // console.log("ball X: " + state.ball.posX)
+  // console.log("ball Y: " + state.ball.posY)
+  // console.log("player Y: " + state.player.posY)
   const isTouched = isTouchedPlayer()
-  console.log("Соприкосновение с игроком: " + isTouched)
-  console.log("Состояние отскакивания: " + state.ball.hasFaced)
+  // console.log("Соприкосновение с игроком: " + isTouched)
+  // console.log("Состояние отскакивания: " + state.ball.hasFaced)
   const quarterAngle = getQuarterAngle(toDeg(state.ball.angle))
   // console.log("угол " + toDeg(state.ball.angle - Math.PI / 2))
   // console.log("четверть " + quarterAngle)
@@ -68,4 +70,18 @@ const update = () => {
   ball.setPosXY(newX)(newY)
 }
 
-export const setup = () => timer = setInterval(update, interval)
+const scoreUpdate = () => {
+  const state = getState()
+  if (!state.isGameOver) {
+    player.setScore(state.player.score + 5) 
+    state.textScore.innerHTML = "Score: " + getState().player.score.toString()
+  } else {
+    clearInterval(scoreTimer)
+  }
+}
+
+export const setup = () => {
+  timer = setInterval(update, interval)
+  
+  scoreTimer = setInterval(scoreUpdate, timeScore)
+}

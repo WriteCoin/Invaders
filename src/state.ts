@@ -23,13 +23,16 @@ const initState = (): State => {
   // const initialAngle = getRandomIntInclusive(0)(1) === 0 ? 3 * Math.PI / 4 : 5 * Math.PI / 4
   const initialAngle = (2 * getRandomIntInclusive(0)(3) + 1) * Math.PI / 4
   return {
+    isGameOver: false,
     playerNode: document.getElementById("player"),
     gameFieldNode: document.getElementById("gameField"),
+    textScore: document.getElementById("score"),
     ballNode: document.getElementById("ball"),
     player: {
       posY: gameField.height / 2 - 50,
       speed: 150,
-      status: PlayerStatus.Idle
+      status: PlayerStatus.Idle,
+      score: 0
     },
     ball: {
       initialPosX: initialPosX,
